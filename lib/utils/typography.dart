@@ -13,10 +13,10 @@ class LoyaltiTypography {
         fontWeight: FontWeight.w700,
         color: color ?? Colors.black,
       );
-  static TextStyle title({Color? color, double fontSize = 16}) => TextStyle(
+  static TextStyle title({Color? color, double fontSize = 16, FontWeight? fontWeight}) => TextStyle(
         fontFamily: "Satoshi",
         fontSize: fontSize,
-        fontWeight: FontWeight.bold,
+        fontWeight: fontWeight ?? FontWeight.bold,
         color: color ?? Colors.black,
       );
   static TextStyle header({Color? color}) => TextStyle(

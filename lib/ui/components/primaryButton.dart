@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class PrimaryButtonWidget extends StatefulWidget {
-  PrimaryButtonWidget({Key? key, required this.title, this.onPressed, this.isEnabled = true})
+  PrimaryButtonWidget(
+      {Key? key, required this.title, this.onPressed, this.isEnabled = true, this.width})
       : super(key: key);
   final String title;
   final Function()? onPressed;
   bool isEnabled;
+  final double? width;
 
   @override
   _PrimaryButtonWidgetState createState() => _PrimaryButtonWidgetState();
@@ -17,7 +19,7 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
     final theme = Theme.of(context);
     return SizedBox(
       height: 51,
-      width: double.infinity,
+      width: widget.width,
       child: TextButton(
         onPressed: widget.isEnabled ? widget.onPressed : null,
         style: ButtonStyle(
@@ -31,7 +33,7 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
         ),
         child: Text(
           widget.title,
-          style: theme.textTheme.button!.copyWith(color: Colors.white),
+          style: theme.textTheme.labelLarge!.copyWith(color: Colors.white),
         ),
       ),
     );
