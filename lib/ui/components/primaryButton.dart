@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:loyalty/utils/text.dart';
 
 class PrimaryButtonWidget extends StatefulWidget {
-  PrimaryButtonWidget(
-      {Key? key, required this.title, this.onPressed, this.isEnabled = true, this.width})
-      : super(key: key);
+  PrimaryButtonWidget({
+    Key? key,
+    required this.title,
+    this.onPressed,
+    this.isEnabled = true,
+    this.width,
+    this.leading,
+    this.trailing,
+  }) : super(key: key);
   final String title;
   final Function()? onPressed;
   bool isEnabled;
   final double? width;
+  final Widget? leading;
+  final Widget? trailing;
 
   @override
   _PrimaryButtonWidgetState createState() => _PrimaryButtonWidgetState();
@@ -18,7 +27,7 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SizedBox(
-      height: 51,
+      height: 36,
       width: widget.width,
       child: TextButton(
         onPressed: widget.isEnabled ? widget.onPressed : null,
@@ -27,13 +36,16 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
               widget.isEnabled ? theme.primaryColor : const Color(0xff848484)),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(13),
+              borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),
-        child: Text(
-          widget.title,
-          style: theme.textTheme.labelLarge!.copyWith(color: Colors.white),
+        child: Row(
+          children: [
+            widget.leading ?? const SizedBox.shrink(),
+            LoyaltiText.sectionTitle("Checkout", color: Colors.white),
+            widget.trailing ?? const SizedBox.shrink(),
+          ],
         ),
       ),
     );

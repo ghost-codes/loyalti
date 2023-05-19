@@ -7,16 +7,16 @@ import 'package:loyalty/core/network/rest_client.dart';
 
 /// Global `Rest` Client Stub Implementation
 class RestClientImpl extends RestClient {
-  /// constructor
   RestClientImpl(
+    String baseUrl,
     this.onNetworkError, {
-    // AchieveLogger? logger,
     Dio? dioInstance,
     Duration connectTimeout = const Duration(seconds: 30),
     Duration receiveTimeout = const Duration(seconds: 30),
   }) {
     _dioInstance = dioInstance ??
         Dio(BaseOptions(
+          baseUrl: baseUrl,
           connectTimeout: connectTimeout,
           receiveTimeout: receiveTimeout,
         ));
@@ -24,19 +24,10 @@ class RestClientImpl extends RestClient {
     _dioInstance.interceptors.add(
       NetworkErrorInterceptor(onNetworkError),
     );
-
-    // if (logger != null) {
-    //   _dioInstance.interceptors.add(
-    // RequestLoggingInterceptor(logger),
-    //   );
-    // }
   }
 
   late Dio _dioInstance;
   final Function(NetworkError error) onNetworkError;
-
-  @override
-  Future<bool> get isConnected => throw UnimplementedError();
 
   @override
   Future<T?> patch<T>(
@@ -72,6 +63,7 @@ class RestClientImpl extends RestClient {
         data: body,
         options: Options(headers: headers),
       );
+
       return response.data;
     } on DioError catch (e) {
       throw NetworkError.fromDio(e);
@@ -123,7 +115,7 @@ class RestClientImpl extends RestClient {
     Map<String, dynamic>? queryParams,
   }) async {
     try {
-      final response = await _dioInstance.get<T>(
+      final response = await _dioInstance.get(
         url,
         queryParameters: queryParams,
         options: Options(headers: headers),

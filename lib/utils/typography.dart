@@ -19,6 +19,7 @@ class LoyaltiTypography {
         fontWeight: fontWeight ?? FontWeight.bold,
         color: color ?? Colors.black,
       );
+
   static TextStyle header({Color? color}) => TextStyle(
         fontFamily: "Satoshi",
         fontSize: 15,

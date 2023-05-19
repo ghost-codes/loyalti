@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:loyalty/core/network/apiConstants.dart';
-import 'package:loyalty/core/network/rest_client.dart';
+import 'package:loyalty/core/models/menu.dart';
+import 'package:loyalty/core/network/selis_api.dart';
 import 'package:loyalty/core/service/injection_container.dart';
 import 'package:loyalty/ui/components/food_card.dart';
 import 'package:loyalty/ui/components/svg_button.dart';
@@ -17,6 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends DataPage<HomePage> {
+  late Menu menu;
+
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -49,7 +51,7 @@ class _HomePageState extends DataPage<HomePage> {
           padding: const EdgeInsets.all(20),
           children: [
             Text(
-              "Welcome Adele,",
+              "Welcome, Adele",
               style: LoyaltiTypography.title(fontSize: 26),
             ),
             const SizedBox(height: 20),
@@ -58,7 +60,10 @@ class _HomePageState extends DataPage<HomePage> {
               style: LoyaltiTypography.title(fontSize: 20, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 10),
-            const FoodCard(),
+            if (menu.special != null)
+              FoodCard(
+                food: menu.special!,
+              ),
             const SizedBox(height: 30),
             Text(
               "Menu",
@@ -84,8 +89,8 @@ class _HomePageState extends DataPage<HomePage> {
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: 10,
-              itemBuilder: (context, index) => const FoodCard(),
+              itemCount: menu.food.length,
+              itemBuilder: (context, index) => FoodCard(food: menu.food[index]),
               separatorBuilder: (context, index) => const SizedBox(height: 10),
             ),
           ],
@@ -96,13 +101,7 @@ class _HomePageState extends DataPage<HomePage> {
 
   @override
   Future<void> onLoad() async {
-    print(ApiPaths.menu);
-    try {
-      final result = await getIt.get<RestClient>().get(ApiPaths.menu);
-      print(result.data);
-    } catch (e) {
-      rethrow;
-    }
+    menu = await getIt.get<SelisApi>().menu();
   }
 
   @override

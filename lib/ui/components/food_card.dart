@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:loyalty/core/models/menu.dart';
 import 'package:loyalty/ui/components/food_details.dart';
 import 'package:loyalty/utils/text.dart';
 import 'package:loyalty/utils/typography.dart';
 
-class FoodItem {
-  final String image = "assets/imgs/food.jpg";
-  final String name = "Vegetable rice";
-  final String desc =
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
-  final double price = 35.0;
-  final String curr = "GHS";
-}
-
 class FoodCard extends StatelessWidget {
-  const FoodCard({super.key});
+  const FoodCard({
+    super.key,
+    required this.food,
+  });
+
+  final MenuItem food;
 
   @override
   Widget build(BuildContext context) {
-    final FoodItem food = FoodItem();
     return GestureDetector(
       onTap: () {
         showModalBottomSheet(
@@ -53,12 +49,12 @@ class FoodCard extends StatelessWidget {
                     LoyaltiText.sectionTitle(food.name),
                     Expanded(
                       child: Text(
-                        food.desc,
+                        food.description,
                         style: LoyaltiTypography.bodyText(),
                         overflow: TextOverflow.fade,
                       ),
                     ),
-                    LoyaltiText.sectionTitle("${food.curr}${food.price}")
+                    LoyaltiText.sectionTitle("GHS 35.0")
                   ],
                 ),
               ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:loyalty/ui/components/food_card.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loyalty/core/models/menu.dart';
 import 'package:loyalty/ui/components/primaryButton.dart';
 import 'package:loyalty/ui/components/svg_button.dart';
 import 'package:loyalty/utils/text.dart';
@@ -8,7 +10,7 @@ import 'package:loyalty/utils/typography.dart';
 class FoodDetailsSheet extends StatelessWidget {
   const FoodDetailsSheet({super.key, required this.food});
 
-  final FoodItem food;
+  final MenuItem food;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,7 @@ class FoodDetailsSheet extends StatelessWidget {
                         LoyaltiText.sectionTitle(food.name),
                         Expanded(
                           child: Text(
-                            food.desc,
+                            food.description,
                             style: LoyaltiTypography.bodyText(),
                             overflow: TextOverflow.fade,
                           ),
@@ -96,8 +98,22 @@ class FoodDetailsSheet extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  LoyaltiText.sectionTitle("Continue Shopping:"),
+                  InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(Icons.chevron_left),
+                        LoyaltiText.sectionTitle("Continue shopping"),
+                      ],
+                    ),
+                  ),
                   PrimaryButtonWidget(
+                    trailing: SvgPicture.asset(
+                      "assets/svg/cart.svg",
+                      color: Colors.white,
+                    ),
                     title: "Checkout",
                     // width: 0,
                   ),
