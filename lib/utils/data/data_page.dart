@@ -49,6 +49,7 @@ abstract class DataPage<T extends StatefulWidget> extends OperationRunnerState<T
       lastError = null;
     } catch (e) {
       lastError = e;
+      // rethrow;
     }
 
     OverlayManager.pageIdle();

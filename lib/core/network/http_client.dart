@@ -21,7 +21,7 @@ class HttpClient {
   {
     BaseOptions options = BaseOptions(
       baseUrl: ApiConstants.API_URL,
-      connectTimeout: const Duration(seconds: 50),
+      connectTimeout: const Duration(seconds: 5),
       receiveTimeout: const Duration(seconds: 15),
       headers: {
         io.HttpHeaders.acceptHeader: 'application/json',

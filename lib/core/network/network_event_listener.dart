@@ -1,3 +1,5 @@
+import 'package:loyalty/core/network/network_error.dart';
+
 /// network event types
 enum NetworkEventType { maintenance, authTokenExpiry }
 
@@ -12,14 +14,14 @@ class NetworkEventListener
 //  extends
 //  ChangeNotifier<NetworkEventType>
 {
-  // /// constructor
-  // // NetworkEventListener({
-  // //   // required Future<bool> Function() refreshSession,
-  // // }) : _refreshSession = refreshSession;
+  //constructor
+  NetworkEventListener({
+    required Future<bool> Function() refreshSession,
+  }) : _refreshSession = refreshSession;
 
   // static const String name = 'NetworkEventListener';
 
-  // // final Future<bool> Function() _refreshSession;
+  final Future<bool> Function() _refreshSession;
 
   // GraphQLClient get _gqlClient => sl.get<GraphQLClient>();
 
@@ -34,14 +36,14 @@ class NetworkEventListener
   // // }
 
   // /// Fires when a new Fetch Error Occurs (currently Auth)
-  // void onNetworkError(NetworkError error) {
-  //   final _message = error.message;
+  void onNetworkError(NetworkError error) {
+    final message = error.message;
 
-  //   // if (_message.contains('503')) {
-  //   //   addEvent(NetworkEventType.maintenance);
-  //   //   return;
-  //   // }
-  // }
+    if (message.contains('503')) {
+      // addEvent(NetworkEventType.maintenance);
+      return;
+    }
+  }
 
   // /// Fires when a new GraphQL related error occurs
   // ///

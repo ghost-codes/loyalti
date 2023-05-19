@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:loyalty/core/network/apiConstants.dart';
+import 'package:loyalty/core/network/rest_client.dart';
+import 'package:loyalty/core/service/injection_container.dart';
 import 'package:loyalty/ui/components/food_card.dart';
 import 'package:loyalty/ui/components/svg_button.dart';
+import 'package:loyalty/utils/data/data_page.dart';
 import 'package:loyalty/utils/text.dart';
 import 'package:loyalty/utils/typography.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends DataPage<HomePage> {
+  @override
+  Widget buildPage(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -84,6 +93,20 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Future<void> onLoad() async {
+    print(ApiPaths.menu);
+    try {
+      final result = await getIt.get<RestClient>().get(ApiPaths.menu);
+      print(result.data);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> onRefresh() async {}
 }
 
 class _SectionButton extends StatelessWidget {
