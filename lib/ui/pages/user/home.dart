@@ -54,16 +54,17 @@ class _HomePageState extends DataPage<HomePage> {
               "Welcome, Adele",
               style: LoyaltiTypography.title(fontSize: 26),
             ),
-            const SizedBox(height: 20),
-            Text(
-              "Today's Special",
-              style: LoyaltiTypography.title(fontSize: 20, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 10),
-            if (menu.special != null)
+            if (menu.special != null) ...[
+              const SizedBox(height: 20),
+              Text(
+                "Today's Special",
+                style: LoyaltiTypography.title(fontSize: 20, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 10),
               FoodCard(
                 food: menu.special!,
               ),
+            ],
             const SizedBox(height: 30),
             Text(
               "Menu",

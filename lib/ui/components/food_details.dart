@@ -37,8 +37,8 @@ class FoodDetailsSheet extends StatelessWidget {
                         aspectRatio: 1,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.asset(
-                            food.image,
+                          child: Image.network(
+                            food.imageUrl,
                           ),
                         ),
                       ),

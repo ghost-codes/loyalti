@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
+import 'package:loyalty/core/network/network_error.dart';
 import 'package:loyalty/core/service/event_bus/event_bus.dart';
 import 'package:loyalty/core/service/event_bus/events.dart';
 import 'package:loyalty/core/service/injection_container.dart';
@@ -49,6 +50,10 @@ abstract class DataPage<T extends StatefulWidget> extends OperationRunnerState<T
       lastError = null;
     } catch (e) {
       lastError = e;
+      if (e is NetworkError) {
+        print(e.message);
+      }
+      print(e.toString());
       // rethrow;
     }
 
