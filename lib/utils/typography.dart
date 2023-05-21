@@ -27,10 +27,11 @@ class LoyaltiTypography {
         color: color ?? Colors.black,
       );
 
-  static bodyText({Color? color}) => TextStyle(
+  static bodyText({Color? color, double fontSize = 15, FontWeight fontWeight = FontWeight.w400}) =>
+      TextStyle(
         fontFamily: "Satoshi",
         color: color ?? Colors.black,
-        fontWeight: FontWeight.w400,
-        fontSize: 15,
+        fontWeight: fontWeight,
+        fontSize: fontSize,
       );
 }

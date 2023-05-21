@@ -41,9 +41,11 @@ class _PrimaryButtonWidgetState extends State<PrimaryButtonWidget> {
           ),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             widget.leading ?? const SizedBox.shrink(),
-            LoyaltiText.sectionTitle("Checkout", color: Colors.white),
+            LoyaltiText.bodyText(widget.title,
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
             widget.trailing ?? const SizedBox.shrink(),
           ],
         ),

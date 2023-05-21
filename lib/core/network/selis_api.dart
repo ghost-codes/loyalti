@@ -12,4 +12,14 @@ class SelisApi {
     final json = await _restClient.get('/menu');
     return Menu.fromJson(json);
   }
+
+  Future<MenuItem> getFoodItem(String id) async {
+    final json = await _restClient.get('/menu/food/$id');
+    return MenuItem.fromJson(json);
+  }
+
+  Future<MenuItem> getDrinkItem(String id) async {
+    final json = await _restClient.get('/menu/drinks/$id');
+    return MenuItem.fromJson(json);
+  }
 }

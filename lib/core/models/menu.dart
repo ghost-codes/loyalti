@@ -4,24 +4,30 @@ part 'menu.g.dart';
 
 @JsonSerializable()
 class MenuItem {
+  final String id;
   @JsonKey(name: "image_url")
   final String imageUrl;
   final String name;
   final String description;
   @JsonKey(name: "menu_item_skus")
-  final List<MenuItemSku> skus;
+  late final List<MenuItemSku> skus;
+  @JsonKey(name: "special_day")
+  final String? specialDay;
 
   MenuItem(
     this.imageUrl,
     this.name,
     this.description,
-    this.skus,
-  );
+    List<MenuItemSku> skus,
+    int id,
+    this.specialDay,
+  ) : id = id.toString() {
+    skus.sort((a, b) => a.price.compareTo(b.price));
+    this.skus = skus;
+  }
 
   double? get displayPrice {
-    final prices = skus.map((e) => e.price).toList();
-    prices.sort();
-    if (prices.isNotEmpty) return prices[0];
+    if (skus.isNotEmpty) return skus.first.price;
     return null;
   }
 
@@ -32,10 +38,11 @@ class MenuItem {
 
 @JsonSerializable()
 class MenuItemSku {
+  final String id;
   final String name;
   final double price;
 
-  MenuItemSku(this.name, this.price);
+  MenuItemSku(this.name, this.price, int id) : id = id.toString();
 
   factory MenuItemSku.fromJson(Map<String, dynamic> json) => _$MenuItemSkuFromJson(json);
 

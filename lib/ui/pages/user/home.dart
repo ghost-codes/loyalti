@@ -70,6 +70,7 @@ class _HomePageState extends DataPage<HomePage> {
               "Menu",
               style: LoyaltiTypography.title(fontSize: 22),
             ),
+            const SizedBox(height: 15),
             Row(
               children: [
                 _SectionButton(
@@ -87,6 +88,7 @@ class _HomePageState extends DataPage<HomePage> {
                 ),
               ],
             ),
+            const SizedBox(height: 10),
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
