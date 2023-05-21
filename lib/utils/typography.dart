@@ -9,7 +9,7 @@ class LoyaltiTypography {
 
   static TextStyle sectionTitle({Color? color}) => TextStyle(
         fontFamily: "Satoshi",
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: FontWeight.w700,
         color: color ?? Colors.black,
       );

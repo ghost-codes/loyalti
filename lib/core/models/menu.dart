@@ -11,6 +11,7 @@ class MenuItem {
   final String description;
   @JsonKey(name: "menu_item_skus")
   late final List<MenuItemSku> skus;
+  late final List<Extra> extras;
   @JsonKey(name: "special_day")
   final String? specialDay;
 
@@ -19,11 +20,20 @@ class MenuItem {
     this.name,
     this.description,
     List<MenuItemSku> skus,
+    List<Extra> extras,
     int id,
     this.specialDay,
   ) : id = id.toString() {
     skus.sort((a, b) => a.price.compareTo(b.price));
     this.skus = skus;
+    extras.sort((a, b) => a.name.compareTo(b.name));
+    extras.sort((a, b) {
+      if ((a.price == b.price)) return 0;
+      if (a.price == 0) return 1;
+      if (b.price == 0) return -1;
+      return 0;
+    });
+    this.extras = extras;
   }
 
   double? get displayPrice {
@@ -47,6 +57,19 @@ class MenuItemSku {
   factory MenuItemSku.fromJson(Map<String, dynamic> json) => _$MenuItemSkuFromJson(json);
 
   Map<String, dynamic> toJson() => _$MenuItemSkuToJson(this);
+}
+
+@JsonSerializable()
+class Extra {
+  final String id;
+  final String name;
+  final double price;
+
+  Extra(this.name, this.price, int id) : id = id.toString();
+
+  factory Extra.fromJson(Map<String, dynamic> json) => _$ExtraFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExtraToJson(this);
 }
 
 @JsonSerializable()

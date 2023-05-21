@@ -6,11 +6,13 @@ class SvgButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this.onPressed,
+    this.color,
     this.width,
   });
 
   final String icon;
   final double? width;
+  final Color? color;
   final Function() onPressed;
 
   @override
@@ -21,6 +23,7 @@ class SvgButton extends StatelessWidget {
         child: SvgPicture.asset(
           icon,
           width: width ?? 30,
+          color: color,
         ),
       ),
     );

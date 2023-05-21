@@ -53,82 +53,193 @@ class _FoodDetailPageState extends DataPage<FoodDetailPage> {
                 Expanded(
                   child: ListView(
                     children: [
-                      SizedBox(
-                        height: 260,
-                        width: double.infinity,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            food.imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      buildImageBanner(),
                       const SizedBox(height: 15),
-                      LoyaltiText.description(
-                        "Sint sit irure ipsum commodo enim aute nulla et minim minim. Adipisicing ipsum sit eiusmod ut dolor mollit tempor culpa qui. Consequat laborum pariatur sint ea nostrud est fugiat nostrud in enim irure. Dolor exercitation ad nisi aliqua irure cillum. Cupidatat nostrud consectetur cillum qui anim deserunt sint cupidatat eu esse nisi cillum amet. Excepteur quis elit minim occaecat quis reprehenderit tempor qui amet aliquip.",
-                      ),
+                      LoyaltiText.description(food.description),
                       const SizedBox(height: 15),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        width: double.infinity,
-                        height: 60,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          itemCount: food.skus.length,
-                          separatorBuilder: (context, _) => const SizedBox(width: 10),
-                          itemBuilder: (_, index) => Pill(
-                            onTap: () => setState(() {
-                              selectedSku = food.skus[index];
-                            }),
-                            isActive: food.skus[index].id == selectedSku.id,
-                            builder: (color, bgColor) => Row(
-                              children: [
-                                LoyaltiText.bodyText(
-                                  "${food.skus[index].name} ",
-                                  fontWeight: FontWeight.bold,
-                                  color: color,
-                                ),
-                                LoyaltiText.bodyText(
-                                  " GHS ${food.skus[index].price}",
-                                  fontSize: 12,
-                                  color: color,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
+                      buildSkuSection(),
+                      if (food.extras.isNotEmpty) buildExtrasSection(),
                     ],
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        context.pop();
-                      },
-                      child: LoyaltiText.bodyText("GHS ${selectedSku.price}",
-                          fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(width: 40),
-                    Expanded(
-                      child: SizedBox(
-                        height: 50,
-                        child: PrimaryButtonWidget(
-                          title: "Add to cart",
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+
+                // ==================> Foooter
+                buildFooterSection(context)
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  Row buildFooterSection(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        InkWell(
+          onTap: () {
+            context.pop();
+          },
+          child: LoyaltiText.bodyText("GHS ${selectedSku.price}",
+              fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(width: 40),
+        Expanded(
+          child: SizedBox(
+            height: 50,
+            child: PrimaryButtonWidget(
+              title: "Add to cart",
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildExtrasSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(
+              width: 60,
+              child: Divider(
+                height: 0,
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
+            ),
+            const SizedBox(width: 10),
+            LoyaltiText.sectionTitle("Extras"),
+            const SizedBox(width: 10),
+            const SizedBox(
+              width: 60,
+              child: Divider(
+                height: 0,
+                color: Colors.grey,
+                thickness: 0.5,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 15),
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: food.extras.length,
+          separatorBuilder: (_, __) => const SizedBox(height: 10),
+          itemBuilder: (_, index) => Row(
+            children: [
+              Expanded(
+                  child: LoyaltiText.bodyText(
+                food.extras[index].name,
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              )),
+              const SizedBox(width: 10),
+              if (food.extras[index].price > 0) ...[
+                LoyaltiText.bodyText("GHS ${food.extras[index].price}"),
+                const SizedBox(width: 20),
+                SvgButton(
+                  icon: "assets/svg/minus.svg",
+                  onPressed: () {},
+                  color: Colors.red,
+                  width: 20,
+                ),
+                const SizedBox(width: 15),
+                LoyaltiText.bodyText("0", fontSize: 20),
+                const SizedBox(width: 10),
+                SvgButton(
+                  icon: "assets/svg/plus.svg",
+                  color: Colors.green,
+                  onPressed: () {},
+                  width: 20,
+                )
+              ] else
+                Switch(value: true, onChanged: (val) {})
+            ],
+          ),
+        ),
+        const SizedBox(height: 30),
+      ],
+    );
+  }
+
+  SizedBox buildImageBanner() {
+    return SizedBox(
+      height: 260,
+      width: double.infinity,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.network(
+          food.imageUrl,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
+  Widget buildSkuSection() {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          width: double.infinity,
+          height: 60,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: food.skus.length,
+            separatorBuilder: (context, _) => const SizedBox(width: 10),
+            itemBuilder: (_, index) => Pill(
+              onTap: () => setState(() {
+                selectedSku = food.skus[index];
+              }),
+              isActive: food.skus[index].id == selectedSku.id,
+              builder: (color, bgColor) => Row(
+                children: [
+                  LoyaltiText.bodyText(
+                    food.skus[index].name,
+                    fontWeight: FontWeight.bold,
+                    color: color,
+                  ),
+                  LoyaltiText.bodyText(
+                    " GHS ${food.skus[index].price}",
+                    fontSize: 12,
+                    color: color,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgButton(
+              icon: "assets/svg/minus.svg",
+              onPressed: () {},
+              color: Colors.red,
+              width: 25,
+            ),
+            const SizedBox(width: 15),
+            LoyaltiText.bodyText("1", fontSize: 32),
+            const SizedBox(width: 10),
+            SvgButton(
+              icon: "assets/svg/plus.svg",
+              color: Colors.green,
+              onPressed: () {},
+              width: 30,
+            ),
+          ],
+        )
+      ],
     );
   }
 
